@@ -1,0 +1,22 @@
+# tell travis we need cpy of docker running
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t jerryc96/react-test -f ./client/Dockerfile.dev ./client
+
+# used to exec test suite
+script:
+  - docker run jerryc96/react-test npm test -- --coverage
+
+# build production version of project
+after_success:
+  - docker build -t jerryc96/multi-docker-client ./client
+  - docker build -t jerryc96/multi-docker-server ./server
+  - docker build -t jerryc96/multi-docker-nginx ./nginx
+  - docker build -t jerryc96/multi-docker-worker ./worker
+
+# push to dockerhub
+
