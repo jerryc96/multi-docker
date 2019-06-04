@@ -18,5 +18,9 @@ after_success:
   - docker build -t jerryc96/multi-docker-nginx ./nginx
   - docker build -t jerryc96/multi-docker-worker ./worker
 
-# push to dockerhub
-
+# login to docker and push to dockerhub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push jerryc96/multi-docker-client
+  - docker push jerryc96/multi-docker-server
+  - docker push jerryc96/multi-docker-nginx
+  - docker push jerryc96/multi-docker-worker
